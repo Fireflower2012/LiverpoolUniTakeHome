@@ -1,0 +1,69 @@
+--  Initial table creation
+
+CREATE TABLE [dbo].[Student] (
+    [ID]          INT            IDENTITY (1, 1) NOT NULL,
+    [FirstName]   NVARCHAR (MAX) NOT NULL,
+    [LastName]    NVARCHAR (MAX) NOT NULL,
+    [DateOfBirth] DATE           NOT NULL,
+    CONSTRAINT [PK_Student] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+
+-- Imported data into from csv file into a new table tempStudent via flat file import wizard in SSMS then
+
+SET IDENTITY_INSERT Student OFF;
+INSERT INTO ([ID] ,[FirstName] ,[LastName] ,[DateOfBirth]) SELECT * FROM tempStudent;
+-- For a real app or with a large data set I'd probably have put together a quick console app to read in the data from the csv file
+
+
+-- Add new column for Task 3
+-- For real this would have been wrapped in a transaction.  Would also have used an enum insterad of an int.
+ALTER TABLE [dbo].[Student]
+    ADD [YearOfStudy] INT DEFAULT 1 NOT NULL;
+	
+	
+-- New tables for Task 4
+
+CREATE TABLE [dbo].[Subject](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[Subject] [nvarchar](max) NOT NULL
+	    CONSTRAINT [PK_Subject] PRIMARY KEY CLUSTERED ([ID] ASC)
+);
+
+-- copied and pasted in data from csv file as quickest option due to the small size of the list - wouldn't do this for a real db!
+
+CREATE TABLE [dbo].[StudentIsStudying](
+	[StudentID] [int] NOT NULL,
+	[SubjectID] [int] NOT NULL,
+ CONSTRAINT [PK_StudentIsStudying] PRIMARY KEY CLUSTERED 
+(
+	[StudentID] ASC,
+	[SubjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[StudentIsStudying]  WITH CHECK ADD  CONSTRAINT [FK_StudentIsStudying_Student] FOREIGN KEY([StudentID])
+REFERENCES [dbo].[Student] ([ID])
+GO
+
+ALTER TABLE [dbo].[StudentIsStudying] CHECK CONSTRAINT [FK_StudentIsStudying_Student]
+GO
+
+ALTER TABLE [dbo].[StudentIsStudying]  WITH CHECK ADD  CONSTRAINT [FK_StudentIsStudying_Subject] FOREIGN KEY([SubjectID])
+REFERENCES [dbo].[Subject] ([ID])
+GO
+
+ALTER TABLE [dbo].[StudentIsStudying] CHECK CONSTRAINT [FK_StudentIsStudying_Subject]
+GO
+
+
+-- set fields of study 
+-- 1 to 5 study biology and history
+INSERT INTO StudentIsStudying (StudentID, SubjectID) VALUES (1,1 ), (1,4),(2,1 ), (2,4) ,(3,1 ), (3,4),(4,1 ), (4,4),(5,1 ), (5,4);
+-- 6 to 10 study Chemistry
+INSERT INTO StudentIsStudying (StudentID, SubjectID) VALUES (6,2), (7,2), (8,2), (9,2), (10,2);
+-- 11 - 15 study Histroy
+INSERT INTO StudentIsStudying (StudentID, SubjectID) VALUES (11,4), (12,4), (13,4), (14,4), (15,4);
+--15 - 20 study physics and geography
+INSERT INTO StudentIsStudying (StudentID, SubjectID) VALUES (15,3),(15,5 ), (16,3) ,(16,5 ), (17,3),(17,5 ), (18,3),(18,5 ), (19,3), (19,5), (20,3 ), (20,5);
