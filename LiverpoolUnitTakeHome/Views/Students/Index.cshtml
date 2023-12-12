@@ -40,7 +40,19 @@
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
             </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.YearOfStudy)
+                    @switch (item.YearOfStudy)
+                    {
+                        case 1:
+                            <span>1st</span>
+                            break;
+                        case 2:
+                            <span>2nd</span>
+                            break;
+                        case 3:
+                            <span>3rd</span>
+                            break;
+                    }
+                    Year
                 </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
