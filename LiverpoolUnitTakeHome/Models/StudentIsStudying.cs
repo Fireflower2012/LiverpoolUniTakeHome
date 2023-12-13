@@ -10,10 +10,11 @@ namespace LiverpoolUnitTakeHome.Models
     public class StudentSubject
     {
         public int StudentID { get; set; }
-        public int SubjectID { get; set; }
-       // public Student Student { get; set; } = null!;
+        public Student Student { get; set; }
 
-         public ICollection<CourseNames> CourseNames { get; set; } = new List<CourseNames>();
+        public int SubjectID { get; set; }
+        public Subject Subject { get; set; }
+
 
     }
 }

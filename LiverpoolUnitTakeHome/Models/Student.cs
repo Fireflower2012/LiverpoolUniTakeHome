@@ -15,7 +15,8 @@ namespace LiverpoolUnitTakeHome.Models
         [Range(1,3)]
         [Display(Name = "Year Of Study")]
         public int YearOfStudy { get; set; }
-        public ICollection<StudentSubject> StudentSubject { get; set; } = new List<StudentSubject>();
+        [Display(Name = "Subjects Studied")]
+        public virtual ICollection<StudentSubject> StudentSubject { get; set; }
 
     }
 }

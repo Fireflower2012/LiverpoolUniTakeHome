@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LiverpoolUnitTakeHome.Models
 {
-    public class CourseNames
+    public class Subject
     {
         public int ID { get; set; }
-        public  string Subject { get; set; }
-     //  public StudentSubject StudentSubject { get; set; }
+        
+        [Column("Subject")]
+        public  string CourseName { get; set; }
+        public virtual ICollection<StudentSubject> StudentSubject { get; set; }
 
     }
 }

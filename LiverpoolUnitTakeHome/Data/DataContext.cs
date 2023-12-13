@@ -10,6 +10,9 @@ namespace LiverpoolUnitTakeHome.Data
     public class DataContext : DbContext
     {
         public DbSet<Student> Students { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+        public DbSet<StudentSubject> StudentSubject { get; set; }
+
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -18,15 +21,8 @@ namespace LiverpoolUnitTakeHome.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Student>().ToTable("Student");
-            modelBuilder.Entity<CourseNames>().ToTable("Subject");
-           modelBuilder.Entity<StudentSubject>().ToTable("StudentIsStudying");
-
-        //    modelBuilder.Entity<Student>()
-        //.HasMany(e => e.StudentSubject)
-        //.WithOne(e => e.Student)
-        //.HasForeignKey(e => e.StudentID)
-        //.IsRequired();
-
+            modelBuilder.Entity<Subject>().ToTable("Subject");
+           modelBuilder.Entity<StudentSubject>().ToTable("StudentIsStudying").HasKey(x => new { x.StudentID, x.SubjectID });
 
         }
 

@@ -34,7 +34,8 @@ namespace LiverpoolUnitTakeHome.Controllers
             }
 
             var students = await _context.Students
-                .Include( a => a.StudentSubject)
+                .Include(b => b.StudentSubject)
+                .ThenInclude(b => b.Subject)
                 .FirstOrDefaultAsync(m => m.ID == id);
 
             if (students == null)
